@@ -3,3 +3,5 @@
 This is modified and more lightweight version of original application to practice UI Automation with Playwright.
 
 The original repo is here: https://github.com/akveo/ngx-admin
+
+For Playwright practive, I've deployed this application to Render: https://playwright-practice-app.onrender.com/ 
