@@ -38,7 +38,12 @@ test.describe('mocking & intercepting', () => {
 })
 
 test.describe('authenticated tests', () => {
-    test('adding and deleting a new post', async({request}) => {
+
+    test.beforeEach('login', async ({page}) => {
+        await page.goto('https://conduit.bondaracademy.com/')
+    })
+
+    test('adding and deleting a new post', async({page, request}) => {
         const response = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {data: {"user":{"email":"conduit123@test.com","password":"conduit123"}}})
         const responseJSON = await response.json()
         const authToken = responseJSON.user.token
@@ -63,19 +68,19 @@ test.describe('authenticated tests', () => {
 
     })
 
-    test.fixme('deleting a new post', async({page, request}) => {
+    test('deleting a new post', async({page, request}) => {
         const response = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {data: {"user":{"email":"conduit123@test.com","password":"conduit123"}}})
         const responseJSON = await response.json()
         const authToken = responseJSON.user.token
 
-        await page.reload()
-        await page.locator('.nav-link i').first().click()
+        await page.getByText('New Article').first().click()
         await page.getByPlaceholder('Article Title').fill('Test article')
         await page.locator('[formcontrolname=description]').fill('Test description')
+        await page.locator('[formcontrolname=body]').fill('Test body')
         await page.getByPlaceholder('Enter tags').fill('Tag1')
         await page.getByRole('button', {name: ' Publish Article '}).click()
         
-        const publishArticleResponse = await page.waitForResponse('https://conduit-api.bondaracademy.com/api/articles')
+        const publishArticleResponse = await page.waitForResponse('https://conduit-api.bondaracademy.com/api/articles/')
         const publishArticleResponseJSON = await publishArticleResponse.json()
         const slugId = publishArticleResponseJSON.article.slug
 
