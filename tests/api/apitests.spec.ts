@@ -2,6 +2,8 @@ import {expect, test} from '@playwright/test';
 import tags from './test-data/tags.json';
 
 test.describe('mocking & intercepting', () => {
+    
+    test.describe.configure({retries: 2})
 
     test.beforeEach(async({page}) => {
         await page.route('*/**/api/tags', async route => {
@@ -61,7 +63,11 @@ test.describe('authenticated tests', () => {
 
     })
 
-    test('deleting a new post', async({page, request}) => {
+    test('deleting a new post', async({page, request}, testInfo) => {
+
+        if(testInfo.retry){
+            // do cleanup for retry attempt
+        }
 
         await page.getByText('New Article').first().click()
         await page.getByPlaceholder('Article Title').fill('Test article')
