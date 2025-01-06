@@ -62,4 +62,31 @@ test.describe('authenticated tests', () => {
         expect(postDeletionResponse.status()).toEqual(204)
 
     })
+
+    test.fixme('deleting a new post', async({page, request}) => {
+        const response = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {data: {"user":{"email":"conduit123@test.com","password":"conduit123"}}})
+        const responseJSON = await response.json()
+        const authToken = responseJSON.user.token
+
+        await page.reload()
+        await page.locator('.nav-link i').first().click()
+        await page.getByPlaceholder('Article Title').fill('Test article')
+        await page.locator('[formcontrolname=description]').fill('Test description')
+        await page.getByPlaceholder('Enter tags').fill('Tag1')
+        await page.getByRole('button', {name: ' Publish Article '}).click()
+        
+        const publishArticleResponse = await page.waitForResponse('https://conduit-api.bondaracademy.com/api/articles')
+        const publishArticleResponseJSON = await publishArticleResponse.json()
+        const slugId = publishArticleResponseJSON.article.slug
+
+        const postDeletionResponse = await request.delete(
+            `https://conduit-api.bondaracademy.com/api/articles/${slugId}`,{
+                headers: {
+                    Authorization: `Token ${authToken}`
+                }
+            }
+        )
+        expect(postDeletionResponse.status()).toEqual(204)
+
+    })
 })
