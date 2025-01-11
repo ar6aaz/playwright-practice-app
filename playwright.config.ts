@@ -29,6 +29,8 @@ export default defineConfig<TestOptions>({
       'Authorization': `Token ${process.env.AUTH_TOKEN}`
     }
   },
+  globalSetup: require.resolve('./global-setup.ts'),
+  globalTeardown: require.resolve('./global-teardown.ts'),
 
   projects: [
     {
@@ -52,7 +54,13 @@ export default defineConfig<TestOptions>({
       dependencies: ['articleSetup']
     },
     {
-      name: 'chromium',
+      name: 'likesCounterGlobal',
+      testMatch: 'likesCounterGlobalSetup.spec.ts',
+      use: { ...devices['Desktop Chrome'], storageState: '../.auth/user.json' },
+    },
+    {
+      name: 'regression',
+      testIgnore: 'likesCounter.spec.ts',
       use: { ...devices['Desktop Chrome'], storageState: '../.auth/user.json' },
       dependencies: ['setup']
     },
