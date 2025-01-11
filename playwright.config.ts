@@ -36,6 +36,22 @@ export default defineConfig<TestOptions>({
       testMatch: 'auth.setup.ts'
     },
     {
+      name: 'articleSetup',
+      testMatch: 'newArticle.setup.ts',
+      dependencies:['setup'],
+      teardown: 'articleDelete'
+    },
+    {
+      name: 'articleDelete',
+      testMatch: 'articleDelete.setup.ts'
+    },
+    {
+      name: 'likesCounter',
+      testMatch: 'likesCounter.spec.ts',
+      use: { ...devices['Desktop Chrome'], storageState: '../.auth/user.json' },
+      dependencies: ['articleSetup']
+    },
+    {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'], storageState: '../.auth/user.json' },
       dependencies: ['setup']
@@ -50,11 +66,11 @@ export default defineConfig<TestOptions>({
     },
     {
       name: 'projectFullScreen',
-        testMatch: 'test.spec.ts',
-        use: {
-          viewport: {width:1920, height: 1080}
-        }
+      testMatch: 'test.spec.ts',
+      use: {
+        viewport: {width:1920, height: 1080}
       }
+    }
   ],
   
 });
