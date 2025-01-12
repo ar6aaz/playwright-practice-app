@@ -1,0 +1,10 @@
+services:
+  playwright-tests:
+    image: playwright-test
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: npm run smoke
+    volumes:
+      - ./playwright-report:/app/playwright-report
+      - ./test-results:/app/test-results
