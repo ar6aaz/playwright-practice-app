@@ -21,6 +21,10 @@ export default defineConfig<TestOptions>({
   //   ['allure-playwright']
   // ],
   reporter: 'allure-playwright',
+  expect:{
+    timeout: 2000,
+    toMatchSnapshot:{maxDiffPixels: 150}
+  },
 
   use: {
 
@@ -38,14 +42,14 @@ export default defineConfig<TestOptions>({
       'Authorization': `Token ${process.env.AUTH_TOKEN}`
     }
   },
-  globalSetup: require.resolve('./global-setup.ts'),
-  globalTeardown: require.resolve('./global-teardown.ts'),
+  // globalSetup: require.resolve('./global-setup.ts'),
+  // globalTeardown: require.resolve('./global-teardown.ts'),
 
   projects: [
-    // {
-    //   name: 'setup',
-    //   testMatch: 'auth.setup.ts'
-    // },
+    {
+      name: 'setup',
+      testMatch: 'auth.setup.ts'
+    },
     {
       name: 'articleSetup',
       testMatch: 'newArticle.setup.ts',
@@ -73,7 +77,6 @@ export default defineConfig<TestOptions>({
       use: { ...devices['Desktop Chrome'], storageState: '../.auth/user.json' },
       dependencies: ['setup']
     },
-
     {
       name: 'dev',
       use: {
@@ -94,6 +97,11 @@ export default defineConfig<TestOptions>({
       use: {
         ...devices['iPhone 13 Pro']
       }
+    },
+    {
+      name: 'visual',
+      testMatch: 'visualTesting.spec.ts',
+      use: { ...devices['Desktop Chrome']}
     }
   ],
   
