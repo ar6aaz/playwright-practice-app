@@ -12,7 +12,16 @@ export default defineConfig<TestOptions>({
   fullyParallel: true,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: 'html',
+  // reporter: 'html',
+  // reporter: 'list',
+  // reporter: 'json',
+  // reporter: [
+  //   ['json', {outputFile: 'test-result/json-report.json'}],
+  //   ['junit', {outputFile: 'test-result/junit-report.json'}],
+  //   ['allure-playwright']
+  // ],
+  reporter: 'allure-playwright',
+
   use: {
 
     baseURL: 'https://playwright-practice-app.onrender.com',
@@ -33,10 +42,10 @@ export default defineConfig<TestOptions>({
   globalTeardown: require.resolve('./global-teardown.ts'),
 
   projects: [
-    {
-      name: 'setup',
-      testMatch: 'auth.setup.ts'
-    },
+    // {
+    //   name: 'setup',
+    //   testMatch: 'auth.setup.ts'
+    // },
     {
       name: 'articleSetup',
       testMatch: 'newArticle.setup.ts',
