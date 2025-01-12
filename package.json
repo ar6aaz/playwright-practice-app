@@ -12,7 +12,8 @@
     "apitests": "npx playwright test tests/api/apitests.spec.ts --project=chromium",
     "firstTest": "npx playwright test tests/firstTest.spec.ts --project=chromium",
     "allTests": "npm run apiTests && npm run firstTest",
-    "envVar": "URL=https://google.com npx playwright test tests/firstTest.spec.ts --project=chromium"
+    "envVar": "URL=https://google.com npx playwright test tests/firstTest.spec.ts --project=chromium",
+    "smoke": "npx playwright test --grep '@smoke'"
   },
   "dependencies": {
     "@angular/animations": "^14.2.12",

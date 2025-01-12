@@ -1,6 +1,6 @@
 import {expect, test, request} from '@playwright/test';
 
-test('likes counter increase', async({page}) => {
+test('likes counter increase @smoke', async({page}) => {
     await page.goto('https://conduit.bondaracademy.com')
     await page.getByText('Global Feed').click()
     const firstLikeButton = await page.locator('app-article-preview').first().locator('button')
